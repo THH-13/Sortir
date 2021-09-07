@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Sorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,38 @@ class SortiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sorties::class);
     }
 
-    // /**
-    //  * @return Sorties[] Returns an array of Sorties objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Sorties[]
+     */
+    public function findSearch(SearchData $search)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->leftJoin('s.siteOrganisateur', 'c')
+            ->addSelect('c');
 
-    /*
-    public function findOneBySomeField($value): ?Sorties
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (!empty($search->q)) {
+            $queryBuilder->andWhere('s.nom LIKE :q');
+            $queryBuilder->setParameter('q', "%" . $search->q . "%");
+        }
+
+        if (!empty($search->startDate) && !empty($search->endDate)) {
+            $queryBuilder->andWhere('s.datedebut BETWEEN :startDate AND :endDate');
+            $queryBuilder->setParameter('startDate', $search->startDate);
+            $queryBuilder->setParameter('endDate', $search->endDate);
+        }
+
+        if (!empty($search->campus)) {
+            $queryBuilder->andWhere('s.siteOrganisateur IN (:campus)');
+            $queryBuilder->setParameter('campus', $search->campus);
+        }
+        /*A afficher en mode connecte mais a revoir ne fonctionne pas, pb accession attribut choice
+        if (!empty($search->status)){
+                    $queryBuilder->andWhere('s.datecloture < :now');
+                    $queryBuilder->setParameter('now', new \DateTime('now'));
+                }*/
+
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+        return $results;
     }
-    */
 }
