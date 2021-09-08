@@ -143,18 +143,6 @@ class Sorties
         return $this;
     }
 
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(?int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
-
     public function getSiteOrganisateur(): ?Campus
     {
         return $this->siteOrganisateur;
@@ -190,4 +178,6 @@ class Sorties
 
         return $this;
     }
+
+
 }

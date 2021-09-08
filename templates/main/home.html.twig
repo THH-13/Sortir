@@ -69,6 +69,11 @@
                     <th scope="row">Nom de la sortie</th>
                     <th scope="row">Date de la sortie</th>
                     <th scope="row">Cloture</th>
+                    <th scope="row">inscrits/places</th>
+                    <th scope="row">Etat</th>
+                    <th scope="row">Inscrit</th>
+                    <th scope="row">Organisateur</th>
+                    <th scope="row">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,7 +88,21 @@
                         <td>
                             {{ sortie.datecloture | date("d/m/Y") }}
                         </td>
+                        <td>
+                            {{ sortie.nbinscriptionsmax }}
+                        </td>
+                        <td>
+                            {{ sortie.etat.libelle }}
+                        </td>
+                        <td>
 
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -96,5 +115,9 @@
         </div>
 
     </div>
+    <div>
 
+
+
+    </div>
 {% endblock %}

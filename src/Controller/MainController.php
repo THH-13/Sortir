@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\Entity\Campus;
 use App\Form\SearchFormType;
 use App\Repository\SortiesRepository;
 
@@ -21,15 +20,13 @@ class MainController extends AbstractController
      */
     public function home(SortiesRepository $sortiesRepository, Request $request): Response
     {
-
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
-
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             $sorties = $sortiesRepository->findSearch($data);
         } else {
-            $sorties = $sortiesRepository->findAll();
+            $sorties = $sortiesRepository->findSorties();
         }
         return $this->render("main/home.html.twig", [
             'searchform' => $form->createView(),

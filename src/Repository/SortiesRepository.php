@@ -28,6 +28,8 @@ class SortiesRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('s');
         $queryBuilder->leftJoin('s.siteOrganisateur', 'c')
             ->addSelect('c');
+        $queryBuilder->leftJoin('s.etat', 'e')
+            ->addSelect('e');
 
         if (!empty($search->q)) {
             $queryBuilder->andWhere('s.nom LIKE :q');
@@ -50,6 +52,17 @@ class SortiesRepository extends ServiceEntityRepository
                     $queryBuilder->setParameter('now', new \DateTime('now'));
                 }
 
+
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+
+    public function findSorties()
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->leftJoin('s.etat', 'e')
+            ->addSelect('e');
         $query = $queryBuilder->getQuery();
         $results = $query->getResult();
         return $results;
