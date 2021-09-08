@@ -49,9 +49,9 @@ class SearchFormType extends AbstractType
                 'required' => false,
                 'choice_label' => 'nom',
                 'translation_domain' => false,
-            ]);
+            ])
 
-     /* A afficher en mode connecte
+     /* A afficher en mode connecte*/
      ->add('status', ChoiceType::class, [
             'choices' => [
                 'Sorties dont je suis l\'organisateur/trice' => 'organisateur',
@@ -64,7 +64,7 @@ class SearchFormType extends AbstractType
             'expanded' => true,
             'multiple' => true,
             'data' => ['organisateur', 'inscrit', 'noinscrit'],
-            ]);*/
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
