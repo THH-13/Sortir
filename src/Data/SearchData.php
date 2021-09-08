@@ -31,8 +31,21 @@ class SearchData
     /**
      * @var string
      */
-    public $status;
+    public $sortiesPassees;
 
+    /**
+     * @var string
+     */
+    public $sortiesOrganisateur;
 
+    /**
+     * @var string
+     */
+    public $sortiesInscrit;
+
+    /**
+     * @var string
+     */
+    public $sortiesNoInscrit;
 
 }

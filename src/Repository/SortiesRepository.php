@@ -44,11 +44,11 @@ class SortiesRepository extends ServiceEntityRepository
             $queryBuilder->andWhere('s.siteOrganisateur IN (:campus)');
             $queryBuilder->setParameter('campus', $search->campus);
         }
-        /*A afficher en mode connecte mais a revoir ne fonctionne pas, pb accession attribut choice
-        if (!empty($search->status)){
+
+        if (!empty($search->sortiesPassees)){
                     $queryBuilder->andWhere('s.datecloture < :now');
                     $queryBuilder->setParameter('now', new \DateTime('now'));
-                }*/
+                }
 
         $query = $queryBuilder->getQuery();
         $results = $query->getResult();

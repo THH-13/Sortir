@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,22 +48,28 @@ class SearchFormType extends AbstractType
                 'required' => false,
                 'choice_label' => 'nom',
                 'translation_domain' => false,
-            ]);
+            ])
+            ->add('sortiesOrganisateur', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'data' => true,
+            ])
+            ->add('sortiesInscrit', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'data' => true,
+            ])
+            ->add('sortiesNoInscrit', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+                'data' => true,
+            ])
 
-     /* A afficher en mode connecte
-     ->add('status', ChoiceType::class, [
-            'choices' => [
-                'Sorties dont je suis l\'organisateur/trice' => 'organisateur',
-                'Sorties auxquelles je suis inscrit/e' => 'inscrit',
-                'Sorties auxquelles je ne suis pas inscrit/e' => 'noinscrit',
-                'Sorties passées' => 'passees',
-            ],
-            'label' => false,
-            'required' => false,
-            'expanded' => true,
-            'multiple' => true,
-            'data' => ['organisateur', 'inscrit', 'noinscrit'],
-            ]);*/
+            ->add('sortiesPassees', CheckboxType::class, [
+                'label' => false,
+                'required' => false,
+
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
