@@ -59,11 +59,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="smallint")
      */
-    private $administrateur;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
     private $actif;
 
     /**
@@ -103,11 +98,7 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function setRoles(array $roles): self
@@ -196,18 +187,6 @@ class User implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getAdministrateur(): ?int
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(int $administrateur): self
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }

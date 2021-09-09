@@ -1,11 +1,18 @@
 <nav class="navbar navbar-white">
     <div class="navbar-brand"></div>
-    <div class="d-flex flex-row navbar-nav">
-            <div class="p-2">
-                <a href="/login" title="Home">Se connecter</a>
-            </div>
-            <div class="p-2">
-                <a href="/register" title="Home">S'inscrire</a>
-            </div>
-    </div>
+        <ul class="d-flex flex-row navbar-nav">
+            {% if app.user %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <li class="p-2"><a href="{{ path('admin_app_register') }}" title="Home">Création de compte (temporaire)</a></li>
+                    <li class="p-2"><a href="#" title="Home">Campus</a></li>
+                    <li class="p-2"><a href="#" title="Home">Ville</a></li>
+                {% endif %}
+                <li class="p-2"><a href="{{ path('main_home') }}" title="Home">Accueil</a></li>
+                <li class="p-2"><a href="#" title="Home">Mon profil</a></li>
+                <li class="p-2"><a href="{{ path('app_logout') }}" title="Home">Se déconnecter</a></li>
+
+
+            {% endif %}
+
+        </ul>
 </nav>
