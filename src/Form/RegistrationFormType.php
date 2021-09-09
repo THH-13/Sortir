@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Doctrine\Common\Collections\Expr\Value;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,13 +19,22 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+         $builder
             ->add('email')
             ->add('pseudo')
             ->add('prenom')
             ->add('nom')
             ->add('telephone')
             ->add('actif')
+            ->add('roles', ChoiceType::class,[
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'label' => 'Rôles'
+            ])
             ->add('campus_no_campus')
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
