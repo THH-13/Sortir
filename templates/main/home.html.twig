@@ -87,7 +87,11 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-outline-dark btn-lg">Créer une sortie</button>
+            {% if app.user %}
+            <div class="btn btn-outline-dark">
+                <a class="lienSortie" href="{{ path('sortie_create') }}" title="Creer une sortie">Créer une sortie</a>
+            </div>
+            {% endif %}
         </div>
 
     </div>

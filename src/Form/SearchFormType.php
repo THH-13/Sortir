@@ -25,7 +25,6 @@ class SearchFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'search'
                 ],
-                'translation_domain' => false,
             ])
             ->add('startDate', DateType::class, [
                 'label' =>'Entre : ',
@@ -33,7 +32,6 @@ class SearchFormType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'attr' => ['class' => 'to'],
-                'translation_domain' => false,
             ])
             ->add('endDate', DateType::class, [
                 'label' =>'Et : ',
@@ -41,13 +39,11 @@ class SearchFormType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'attr' => ['class' => 'to'],
-                'translation_domain' => false,
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'required' => false,
                 'choice_label' => 'nom',
-                'translation_domain' => false,
             ])
             ->add('sortiesOrganisateur', CheckboxType::class, [
                 'label' => false,
@@ -76,6 +72,7 @@ class SearchFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchData::class,
+            'translation_domain' => false,
         ]);
     }
 
