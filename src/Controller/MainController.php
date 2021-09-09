@@ -16,7 +16,7 @@ class MainController extends AbstractController
 
 
     /**
-     * @Route("/", name="main_home")
+     * @Route("/sorties", name="main_home")
      */
     public function home(SortiesRepository $sortiesRepository, Request $request): Response
     {
