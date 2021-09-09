@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Common\Collections\Expr\Value;
 use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\DataMapper\CheckboxListMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,14 +27,17 @@ class RegistrationFormType extends AbstractType
             ->add('nom')
             ->add('telephone')
             ->add('actif')
-            ->add('roles', ChoiceType::class,[
-                'choices' => [
+
+           ->add('roles', ChoiceType::class,[
+               'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
+
                 ],
-                'expanded' => true,
+                /**'expanded' => true,*/
                 'multiple' => true,
-                'label' => 'Rôles'
+                'label' => 'Rôles',
+
             ])
             ->add('campus_no_campus')
             ->add('plainPassword', PasswordType::class, [
