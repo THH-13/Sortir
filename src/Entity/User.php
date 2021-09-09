@@ -59,11 +59,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="smallint")
      */
-    private $administrateur;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
     private $actif;
 
     /**
@@ -196,18 +191,6 @@ class User implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getAdministrateur(): ?int
-    {
-        return $this->administrateur;
-    }
-
-    public function setAdministrateur(int $administrateur): self
-    {
-        $this->administrateur = $administrateur;
 
         return $this;
     }

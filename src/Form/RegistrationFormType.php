@@ -22,7 +22,6 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('nom')
             ->add('telephone')
-            ->add('administrateur')
             ->add('actif')
             ->add('campus_no_campus')
             ->add('plainPassword', PasswordType::class, [
