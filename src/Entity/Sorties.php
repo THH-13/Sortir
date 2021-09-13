@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\SortiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Array_;
 
 /**
  * @ORM\Entity(repositoryClass=SortiesRepository::class)
@@ -60,11 +62,13 @@ class Sorties
      */
     private $lieu;
 
+
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
+
 
     public function getId(): ?int
     {
@@ -178,6 +182,5 @@ class Sorties
 
         return $this;
     }
-
 
 }

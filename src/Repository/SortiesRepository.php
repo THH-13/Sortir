@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Data\SearchData;
 use App\Entity\Sorties;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -65,6 +66,9 @@ class SortiesRepository extends ServiceEntityRepository
             ->addSelect('e');
         $query = $queryBuilder->getQuery();
         $results = $query->getResult();
+        /*$query->setMaxResults(10);
+        $paginator = new Paginator($query);
+        return $paginator;*/
         return $results;
     }
 }

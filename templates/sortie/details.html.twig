@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Detail {% endblock %}
+{% block body %}
+    <h2 class="text-center">Afficher une sortie :</h2>
+    {{ form_start(sortiesForm) }}
+    <div class="container">
+        <div class="row">
+
+            {% include('sortie/_sortie.html.twig') %}
+
+
+    {{ form_end(sortiesForm) }}
+    <div class="col-md-4">
+        <h4>Liste des participants inscrits</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="row">Pseudo</th>
+                <th scope="row">Nom</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
+    </div>
+{% endblock %}

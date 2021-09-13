@@ -20,7 +20,7 @@
 
     {% endblock %}
 </head>
-<body>
+<div>
 <header>
     <div class="container-fluid">
         <div class="row mt-2">
@@ -35,8 +35,11 @@
 </header>
 {% for label, messages in app.flashes %}
 {% for message in messages %}
+
 <div class="flash flash-{{ label }}">
+
     {{ message }}
+</div>
 </div>
 {% endfor %}
 {% endfor %}

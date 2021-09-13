@@ -68,6 +68,11 @@
                     <th scope="row">Nom de la sortie</th>
                     <th scope="row">Date de la sortie</th>
                     <th scope="row">Cloture</th>
+                    <th scope="row">inscrits/places</th>
+                    <th scope="row">Etat</th>
+                    <th scope="row">Inscrit</th>
+                    <th scope="row">Organisateur</th>
+                    <th scope="row">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,18 +87,27 @@
                         <td>
                             {{ sortie.datecloture | date("d/m/Y") }}
                         </td>
+                        <td>
+                            {{ sortie.nbinscriptionsmax }}
+                        </td>
+                        <td>
+                            {{ sortie.etat.libelle }}
+                        </td>
+                        <td>
 
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            {% if app.user %}
-            <div class="btn btn-outline-dark">
-                <a class="lienSortie" href="{{ path('sortie_create') }}" title="Creer une sortie">Créer une sortie</a>
-            </div>
-            {% endif %}
-        </div>
 
-    </div>
+                <button type="button" onclick="window.location.href='{{ path('sortie_create') }}'" class="btn btn-outline-dark">Créer une sortie</button>
+
 
 {% endblock %}

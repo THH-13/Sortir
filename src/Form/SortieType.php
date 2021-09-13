@@ -25,16 +25,10 @@ use Symfony\Component\Security\Core\Security;
 
 class SortieType extends AbstractType
 {
-    private $security;
 
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $users = $this->security->getUser();
 
         $builder
             ->add('nom', TextType::class, [
@@ -55,38 +49,104 @@ class SortieType extends AbstractType
             ])
             ->add('duree', IntegerType::class, [
                 'label' => false,
-                'data' => 90,
             ])
             ->add('descriptioninfos', TextareaType::class, [
                 'label' => false,
                 'required' => false,
             ])
-            ->add('ville', EntityType::class, [
-                'mapped' => false,
-                'class' => Ville::class,
-                'choice_label' => 'nom',
-                'placeholder' => 'Ville'
+            ->add('siteOrganisateur', EntityType::class, [
+                'label' => false,
+                'class' => Campus::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c');
+                },
+                'choice_label' => function (Campus $campus) {
+                    return $campus->getNom();
+                }
             ])
-            ->add('lieu', ChoiceType::class, [
-                'placeholder' => 'Lieu (choisir une ville)',
-            ]);
-        /*$formModifier = function (FormInterface $form, Ville $ville = null) {
-            $lieux = (null === $ville) ? [] : $ville->getLieux();
-            $form->add('lieux', EntityType::class, [
+
+           ->add('lieuNom', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
                 'class' => Lieu::class,
-                'choices' => $lieux,
-                'choice_label' => 'nom',
-                'placeholder' => 'Lieu (choisir une ville)',
-                'label' => 'lieu',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l');
+                },
+                'choice_label' => function (Lieu $lieu) {
+                    return $lieu->getNom();
+                }
+            ])
+            ->add('lieuLatitude', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
+                'class' => Lieu::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l');
+                },
+                'choice_label' => function (Lieu $lieu) {
+                    return $lieu->getLatitude();
+                }
+            ])
+            ->add('lieuLongitude', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
+                'class' => Lieu::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l');
+                },
+                'choice_label' => function (Lieu $lieu) {
+                    return $lieu->getLongitude();
+                }
+            ])
+            ->add('villeNom', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
+                'class' => Ville::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('v');
+                },
+                'choice_label' => function (Ville $ville) {
+                    return $ville->getNom();
+                }
+            ])
+           ->add('lieuRue', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
+                'class' => Lieu::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l');
+                },
+                'choice_label' => function (Lieu $lieu) {
+                    return $lieu->getRue();
+                }
+            ])
+            ->add('villeCodePostal', EntityType::class, [
+                'mapped' => false,
+                'label' => false,
+                'class' => Ville::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('v');
+                },
+                'choice_label' => function (Ville $ville) {
+                    return $ville->getCodePostal();
+                }
             ]);
-        };
-        $builder->get('ville')->addEventListener(
+
+        /*$builder->get('villeNom')->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
-                $ville = $event->getForm()->getData();
-                $formModifier($event->getForm()->getParent(), $ville);
+            function (FormEvent $event) {
+                $form = $event->getForm();
+
+                $form->getParent()->add('lieu', EntityType::class, [
+                    /*'mapped' => false,*/
+                  /*  'class' => Lieu::class,
+                    'placeholder' => 'Please select lieu',
+                    'choices' => $form->getData()->getLieux()
+
+                ]);
             }
         );*/
+
 
     }
 

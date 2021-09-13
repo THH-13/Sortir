@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | Detail {% endblock %}
+{% block body %}
+    <h2 class="text-center">Modifier une sortie :</h2>
+    {{ form_start(sortiesForm) }}
+    <div class="container">
+        <div class="row">
+
+            {% include('sortie/_sortie.html.twig') %}
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-dark ">Enregistrer</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" onclick="window.location.href='{{ path('main_home') }}'"  class="btn btn-outline-dark">Publier</button>
+                </div>
+                <div class="col-md-2">
+                    <button type="reset" class="btn btn-outline-dark ">Annuler</button>
+                </div>
+
+            </div>
+            {{ form_end(sortiesForm) }}
+
+        </div>
+    </div>
+{% endblock %}
+
