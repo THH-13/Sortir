@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil!{% endblock %}
+
+{% block body %}
+    <form method="post" action="User.php">
+        Name : <input type="text" name="nom" placeholder="Entrez votre nom" /><br />
+        Email : <input type="email" name="email" placeholder="Entrer votre Email" /><br />
+        <input type="submit" value="Submit" />
+    </form>
+
+
+{% endblock %}
