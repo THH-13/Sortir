@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/sorties", name="sortie_")
@@ -29,13 +30,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/create", name="create")
+     * @Route("/create", name="create", methods={"GET","POST"})
      */
-    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, LieuRepository $lieuRepository, VilleRepository $villeRepository): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, LieuRepository $lieuRepository, VilleRepository $villeRepository, UserInterface $user): Response
     {
 
 
-        /*$usersId=$users->getId();*/
+        $user->getId();
 
 
         $sorties = new Sorties();
@@ -47,7 +48,7 @@ class SortieController extends AbstractController
         $ville = $villeRepository->findAll()[0];
         $lieu->setVille($ville);
 
-
+        $sorties -> setOrganisateur($this->getUser());
 
         $sortiesForm = $this->createForm(SortieType::class, $sorties);
         $sortiesForm->handleRequest($request);

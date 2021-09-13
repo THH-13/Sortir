@@ -62,11 +62,30 @@ class User implements UserInterface
      * @ORM\Column(type="smallint")
      */
     private $actif;
+    
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToMany(targetEntity=Sorties::class, mappedBy="isRegistered")
+     */
+    private $sorties;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sorties::class, mappedBy="organisateur")
+     */
+    private $sortiesOrganisateur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $campus_no_campus;
+    
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+        $this->sortiesOrganisateur = new ArrayCollection();
+    }
 
 
 
@@ -215,6 +234,75 @@ class User implements UserInterface
     public function setCampusNoCampus(int $campus_no_campus): self
     {
         $this->campus_no_campus = $campus_no_campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sorties[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sorties $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->addIsRegistered($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sorties $sorty): self
+    {
+        if ($this->sorties->removeElement($sorty)) {
+            $sorty->removeIsRegistered($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sorties[]
+     */
+    public function getSortiesOrganisateur(): Collection
+    {
+        return $this->sortiesOrganisateur;
+    }
+
+    public function addSortiesOrganisateur(Sorties $sortiesOrganisateur): self
+    {
+        if (!$this->sortiesOrganisateur->contains($sortiesOrganisateur)) {
+            $this->sortiesOrganisateur[] = $sortiesOrganisateur;
+            $sortiesOrganisateur->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortiesOrganisateur(Sorties $sortiesOrganisateur): self
+    {
+        if ($this->sortiesOrganisateur->removeElement($sortiesOrganisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($sortiesOrganisateur->getOrganisateur() === $this) {
+                $sortiesOrganisateur->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }

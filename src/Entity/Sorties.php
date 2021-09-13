@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SortiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use PhpParser\Node\Expr\Array_;
 
@@ -68,6 +69,22 @@ class Sorties
      * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sorties")
+     */
+    private $isRegistered;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sortiesOrganisateur")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    public function __construct()
+    {
+        $this->isRegistered = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -179,6 +196,42 @@ class Sorties
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getIsRegistered(): Collection
+    {
+        return $this->isRegistered;
+    }
+
+    public function addIsRegistered(User $isRegistered): self
+    {
+        if (!$this->isRegistered->contains($isRegistered)) {
+            $this->isRegistered[] = $isRegistered;
+        }
+
+        return $this;
+    }
+
+    public function removeIsRegistered(User $isRegistered): self
+    {
+        $this->isRegistered->removeElement($isRegistered);
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }

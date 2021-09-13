@@ -3,13 +3,13 @@
         <ul class="d-flex flex-row navbar-nav">
             {% if app.user %}
                 {% if is_granted("ROLE_ADMIN") %}
-                    <li class="p-2"><a href="{{ path('admin_app_register') }}" title="Home">Création de compte (temporaire)</a></li>
-                    <li class="p-2"><a href="#" title="Home">Campus</a></li>
-                    <li class="p-2"><a href="#" title="Home">Ville</a></li>
+                    <li class="p-2"><a href="{{ path('admin_app_register') }}" title="register">Création de compte (temporaire)</a></li>
+                    <li class="p-2"><a href="#" title="campus">Campus</a></li>
+                    <li class="p-2"><a href="#" title="ville">Ville</a></li>
                 {% endif %}
                 <li class="p-2"><a href="{{ path('main_home') }}" title="Home">Accueil</a></li>
-                <li class="p-2"><a href="{{ path('profil_index') }}" title="Home">Mon profil</a></li>
-                <li class="p-2"><a href="{{ path('app_logout') }}" title="Home">Se déconnecter</a></li>
+                <li class="p-2"><a href="{{ path('profil_index') }}" title="profil">Mon profil</a></li>
+                <li class="p-2"><a href="{{ path('app_logout') }}" title="logout">Se déconnecter</a></li>
 
 
             {% endif %}
