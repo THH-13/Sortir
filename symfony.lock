@@ -88,6 +88,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "jenssegers/optimus": {
+        "version": "v1.1.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.2"
     },
@@ -114,6 +117,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
+    },
+    "phpseclib/phpseclib": {
+        "version": "2.0.33"
     },
     "phpspec/prophecy": {
         "version": "1.13.0"
