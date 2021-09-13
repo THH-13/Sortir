@@ -31,10 +31,14 @@ class ProfilController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="profil_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="profil_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator): Response
     {
+
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

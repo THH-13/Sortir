@@ -44,3 +44,4 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/sorties, roles: [ROLE_USER, ROLE_ADMIN]}
+        - { path: ^/profil, roles: [ROLE_USER, ROLE_ADMIN]}
