@@ -41,12 +41,12 @@ class SortieController extends AbstractController
 
         $sorties = new Sorties();
         $sorties->setDuree(90);
-        $etat = $etatRepository->findAll()[0];
+        $etat = $etatRepository->findEtat()[0];
         $sorties->setEtat($etat);
-        $lieu = $lieuRepository->findAll()[0];
+        /*$lieu = $lieuRepository->findAll()[0];
         $sorties->setLieu($lieu);
         $ville = $villeRepository->findAll()[0];
-        $lieu->setVille($ville);
+        $lieu->setVille($ville);*/
 
         $sorties -> setOrganisateur($this->getUser());
 

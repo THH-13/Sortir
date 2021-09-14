@@ -47,4 +47,18 @@ class EtatRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Etat[]
+     */
+    public function findEtat()
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+        $queryBuilder->leftJoin('e.sorties', 'sorties')
+            ->addSelect('sorties');
+
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
 }

@@ -59,6 +59,7 @@ class SortiesRepository extends ServiceEntityRepository
         return $results;
     }
 
+
     public function findSorties()
     {
         $queryBuilder = $this->createQueryBuilder('s');
@@ -71,4 +72,15 @@ class SortiesRepository extends ServiceEntityRepository
         return $paginator;*/
         return $results;
     }
+    public function findRegistered()
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->leftJoin('s.isRegistered', 'user')
+            ->addSelect('user');
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+
+        return $results;
+    }
+
 }

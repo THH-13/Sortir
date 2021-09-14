@@ -66,8 +66,7 @@ class SortieType extends AbstractType
                 }
             ])
 
-           ->add('lieuNom', EntityType::class, [
-                'mapped' => false,
+           ->add('lieu', EntityType::class, [
                 'label' => false,
                 'class' => Lieu::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -99,7 +98,7 @@ class SortieType extends AbstractType
                     return $lieu->getLongitude();
                 }
             ])
-            ->add('villeNom', EntityType::class, [
+            ->add('ville', EntityType::class, [
                 'mapped' => false,
                 'label' => false,
                 'class' => Ville::class,
@@ -131,7 +130,10 @@ class SortieType extends AbstractType
                 'choice_label' => function (Ville $ville) {
                     return $ville->getCodePostal();
                 }
-            ])
+            ]);
+
+
+
        /* ->add('organisateur', HiddenType::class, [
             'data'=> '$id'
         ])*/;
