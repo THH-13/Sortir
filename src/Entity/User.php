@@ -76,9 +76,10 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="users")
+     * @ORM\Column(type="integer")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $campus_no_campus;
+    private $campus_no_campus_id;
     
 
     public function __construct()
@@ -228,12 +229,12 @@ class User implements UserInterface
 
     public function getCampusNoCampus(): ?int
     {
-        return $this->campus_no_campus;
+        return $this->campus_no_campus_id;
     }
 
-    public function setCampusNoCampus(int $campus_no_campus): self
+    public function setCampusNoCampus(int $campus_no_campus_id): self
     {
-        $this->campus_no_campus = $campus_no_campus;
+        $this->campus_no_campus_id = $campus_no_campus_id;
 
         return $this;
     }
@@ -306,5 +307,13 @@ class User implements UserInterface
 
         return $this;
     }
-
+    /**
+     * Transform to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 }

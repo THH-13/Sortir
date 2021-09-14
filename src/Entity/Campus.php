@@ -15,7 +15,7 @@ class Campus
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
@@ -117,7 +117,15 @@ class Campus
         return $this;
     }
 
-
+    /**
+     * Transform to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 
 
 }

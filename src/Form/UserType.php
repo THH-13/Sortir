@@ -40,6 +40,7 @@ class UserType extends AbstractType
             ->add('actif')
             ->add('campus_no_campus')
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
