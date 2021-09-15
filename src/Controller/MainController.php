@@ -34,10 +34,27 @@ class MainController extends AbstractController
 
         foreach ($sorties as $sortie) {
 
-            if ($sortie->getDatedebut() < new DateTime('- 1 year') && ($sortie->getEtat()->getId() != 1)) {
+            if ($sortie->getDatedebut() < new DateTime('- 1 month') && ($sortie->getEtat()->getId() != 1)) {
                 $etat = $etatRepository->findEtat()[4];
                 $sortie->setEtat($etat);
-            } elseif ($sortie->getDatedebut() > new DateTime('- 1 year') && $sortie->getDatedebut() < new DateTime('now') && ($sortie->getEtat()->getId() != 1) && ($sortie->getEtat()->getId() != 6) ) {
+            }
+            elseif ($sortie->getEtat()->getId() == 6) {
+                $etat = $etatRepository->findEtat()[5];
+                $sortie->setEtat($etat);
+            }
+            elseif (($sortie->getEtat()->getId() == 1) && ($sortie->getEtat()->getId() != 6)) {
+                $etat = $etatRepository->findEtat()[0];
+                $sortie->setEtat($etat);
+            }
+            elseif (($sortie->getEtat()->getId() == 2) && ($sortie->getEtat()->getId() != 6)) {
+                $etat = $etatRepository->findEtat()[1];
+                $sortie->setEtat($etat);
+            }
+            elseif (($sortie->getDatedebut() === new DateTime('now')) && ($sortie->getEtat()->getId() != 6)) {
+                $etat = $etatRepository->findEtat()[3];
+                $sortie->setEtat($etat);
+            }
+            elseif ($sortie->getDatedebut() > new DateTime('- 1 month') && $sortie->getDatedebut() < new DateTime('now') && ($sortie->getEtat()->getId() != 1) && ($sortie->getEtat()->getId() != 6) ) {
                 $etat = $etatRepository->findEtat()[6];
                 $sortie->setEtat($etat);
             } elseif (($sortie->getDatecloture() < new DateTime('now')) && ($sortie->getEtat()->getId() != 1) && ($sortie->getEtat()->getId() != 6)) {

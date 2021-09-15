@@ -31,7 +31,7 @@ class ProfilController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="profil_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="profil_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator): Response
     {
