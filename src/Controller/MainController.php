@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Data\SearchData;
 use App\Entity\Etat;
 use App\Entity\Sorties;
+use App\Form\AnnulerSortieType;
 use App\Form\SearchFormType;
 use App\Repository\EtatRepository;
 use App\Repository\SortiesRepository;
@@ -27,28 +28,26 @@ class MainController extends AbstractController
     /**
      * @Route("/sorties", name="main_home")
      */
-    public function home(SortiesRepository $sortiesRepository, Request $request,EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
+    public function home(SortiesRepository $sortiesRepository, Request $request, EtatRepository $etatRepository, EntityManagerInterface $entityManager): Response
     {
-       /*$sorties = $entityManager->getRepository(Sorties::class)->findAll();
-        foreach ($sorties as $sortie){
+        $sorties = $entityManager->getRepository(Sorties::class)->findAll();
 
-            if (($sortie->getDatedebut() == new DateTime('now')) && ($sortie->getEtat() != 1)){
+        foreach ($sorties as $sortie) {
+
+            if ($sortie->getDatedebut() < new DateTime('- 1 year') && ($sortie->getEtat()->getId() != 1)) {
                 $etat = $etatRepository->findEtat()[4];
                 $sortie->setEtat($etat);
-
-            }
-            if (($sortie->getDatecloture() <= new DateTime('now')) && ($sortie->getDatedebut() != new DateTime('now') ) ){
-               $etat = $etatRepository->findEtat()[3];
+            } elseif ($sortie->getDatedebut() > new DateTime('- 1 year') && $sortie->getDatedebut() < new DateTime('now') && ($sortie->getEtat()->getId() != 1) && ($sortie->getEtat()->getId() != 6) ) {
+                $etat = $etatRepository->findEtat()[6];
                 $sortie->setEtat($etat);
-            }elseif ($sortie->getDatedebut()> $sortie->getDatecloture() && $sortie->getDatecloture() < new DateTime('now') ){
-                $etat = $etatRepository->findEtat()[1];
+            } elseif (($sortie->getDatecloture() < new DateTime('now')) && ($sortie->getEtat()->getId() != 1) && ($sortie->getEtat()->getId() != 6)) {
+                $etat = $etatRepository->findEtat()[2];
                 $sortie->setEtat($etat);
             }
-       }
-
+        }
 
         $entityManager->persist($sortie);
-        $entityManager->flush();*/
+        $entityManager->flush();
 
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
@@ -57,6 +56,7 @@ class MainController extends AbstractController
             $sorties = $sortiesRepository->findSearch($data);
         } else {
             $sorties = $sortiesRepository->findRegistered();
+            /*$sortiesEtat = $sortiesRepository->findSorties();*/
         }
         return $this->render("main/home.html.twig", [
             'searchform' => $form->createView(),
@@ -64,56 +64,74 @@ class MainController extends AbstractController
 
         ]);
     }
-    /**
-     * @Route("/test", name="main_test")
-     */
-    public function test()
-    {
-        return $this->render("main/test.html.twig");
-    }
 
-   /**
+    /**
      * @Route("/{id}/etat/", name="etat")
      */
-    public function etat(Request $request, SortiesRepository $sortiesRepository, int $id, EntityManagerInterface $entityManager, EtatRepository $etatRepository){
+    public function etat(Request $request, SortiesRepository $sortiesRepository, int $id, EntityManagerInterface $entityManager, EtatRepository $etatRepository)
+    {
 
         $sorties = $entityManager->getRepository(Sorties::class)->find($id);
-
         $etat = $etatRepository->findEtat()[1];
         $sorties->setEtat($etat);
-
         $entityManager->persist($sorties);
         $entityManager->flush();
         return $this->redirectToRoute('main_home');
     }
 
-  /**
+    /**
      * @Route("/{id}/inscrit/", name="inscrit")
      */
-    public function inscrit(int $id, Request $request, SortiesRepository $sortiesRepository, EntityManagerInterface $entityManager, UserInterface $user){
+    public function inscrit(int $id, Request $request, SortiesRepository $sortiesRepository, EntityManagerInterface $entityManager, UserInterface $user)
+    {
 
         $sorties = $entityManager->getRepository(Sorties::class)->find($id);
-
         $user->addSorty($sorties);
-
         $entityManager->persist($sorties);
         $entityManager->flush();
-
         return $this->redirectToRoute('main_home');
     }
+
     /**
      * @Route("/{id}/desister/", name="desister")
      */
-    public function desister(int $id, Request $request, SortiesRepository $sortiesRepository, EntityManagerInterface $entityManager, UserInterface $user){
+    public function desister(int $id, Request $request, SortiesRepository $sortiesRepository, EntityManagerInterface $entityManager, UserInterface $user)
+    {
 
         $sorties = $entityManager->getRepository(Sorties::class)->find($id);
-
         $user->removeSorty($sorties);
-
         $entityManager->persist($sorties);
         $entityManager->flush();
-
         return $this->redirectToRoute('main_home');
+    }
+
+    /**
+     * @Route("/{id}/annuler/", name="annuler")
+     */
+    public function annuler(int $id, Request $request, SortiesRepository $sortiesRepository, EntityManagerInterface $entityManager, EtatRepository $etatRepository, UserInterface $user)
+    {
+        $sorties = $entityManager->getRepository(Sorties::class)->find($id);
+
+
+        $sortiesForm = $this->createForm(AnnulerSortieType::class, $sorties);
+        $sortiesForm->handleRequest($request);
+        if (!$sorties) {
+            throw $this->createNotFoundException('Non trouvé');
+        }
+        if ($sortiesForm->isSubmitted()) {
+            $etat = $etatRepository->findEtat()[5];
+            $sorties->setEtat($etat);
+            $entityManager->persist($sorties);
+            $entityManager->flush();
+            $this->addFlash('Success', 'Sortie annulée');
+
+        }
+
+        return $this->render('sortie/annuler.html.twig', [
+            'AnnulerSortieForm' => $sortiesForm->createView(),
+            "sortie" => $sorties
+        ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

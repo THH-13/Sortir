@@ -111,15 +111,21 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if (sortie.organisateur == app.user) and ( sortie.etat.id == 2) %}
+                    {% if (sortie.organisateur == app.user) and ( sortie.etat.id == 2) or ( sortie.etat.id == 3) %}
                     <div class="d-flex flex-row mt-3">
                         <div class="p-2">
                             <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
                         </div>
                         <div class="p-2">
-                            <a href="#" title="Detail">Annuler</a>
+                            <a href="{{ path('annuler', { 'id':sortie.id }) }}" title="Detail">Annuler</a>
                         </div>
                     </div>
+                    {% elseif (( sortie.etat.id == 5) or ( sortie.etat.id == 6) or ( sortie.etat.id == 7)) %}
+                        <div class="d-flex flex-row mt-3">
+                            <div class="p-2">
+                                <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+                            </div>
+                        </div>
                     {% endif %}
                     {% if (sortie.organisateur != app.user) and ( sortie.etat.id == 2) and (app.user not in sortie.isRegistered) and (sortie.nbinscriptionsmax != (sortie.isRegistered | length)) %}
                         <div class="d-flex flex-row mt-3">

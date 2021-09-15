@@ -14,7 +14,7 @@
                     <button type="submit" class="btn btn-outline-dark ">Enregistrer</button>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" onclick="window.location.href='{{ path('main_home') }}'" class="btn btn-outline-dark">Publier</button>
+                   <div class="btn btn-outline-dark "> {{ form_row(sortiesForm.publier) }}</div>
                 </div>
                 <div class="col-md-2">
                     <button type="reset" class="btn btn-outline-dark ">Annuler</button>
@@ -24,7 +24,8 @@
 
         </div>
     </div>
-    {{ form_end(sortiesForm) }}
+    {{ form_end(sortiesForm, {'render_rest': false}) }}
+
 {% endblock %}
 
 {#{% block javascripts %}

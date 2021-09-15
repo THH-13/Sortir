@@ -8,12 +8,14 @@ use App\Entity\Lieu;
 use App\Entity\Sorties;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Form\AnnulerSortieType;
 use App\Form\CampusType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortiesRepository;
+use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +34,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/create", name="create", methods={"GET","POST"})
      */
-    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, LieuRepository $lieuRepository, VilleRepository $villeRepository, UserInterface $user): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository, LieuRepository $lieuRepository, VilleRepository $villeRepository, UserInterface $user, UserRepository $userRepository, SortiesRepository $sortiesRepository): Response
     {
 
 
@@ -43,50 +45,59 @@ class SortieController extends AbstractController
         $sorties->setDuree(90);
         $etat = $etatRepository->findEtat()[0];
         $sorties->setEtat($etat);
-        /*$lieu = $lieuRepository->findAll()[0];
-        $sorties->setLieu($lieu);
-        $ville = $villeRepository->findAll()[0];
-        $lieu->setVille($ville);*/
 
-        $sorties -> setOrganisateur($this->getUser());
-
+        /*$users = $sortiesRepository->findRegistered();*/
+        $sorties->setOrganisateur($this->getUser());
+        /*$sorties->setSiteOrganisateur($this->getUser()->getCampusNoCampus());*/
         $sortiesForm = $this->createForm(SortieType::class, $sorties);
         $sortiesForm->handleRequest($request);
 
-        if ($sortiesForm->isSubmitted()) {
+        if ($sortiesForm->isSubmitted() /*&& $sortiesForm->isValid()*/) {
+
             $entityManager->persist($sorties);
             $entityManager->flush();
             $this->addFlash('Success', 'Sortie créee');
         }
+        if ($sortiesForm->get('publier')->isClicked()) {
+            $etat = $etatRepository->findEtat()[1];
+            $sorties->setEtat($etat);
+            $entityManager->persist($sorties);
+            $entityManager->flush();
+            return $this->redirectToRoute('main_home');
+        }
+
         return $this->render('/sortie/create.html.twig', [
             'sortiesForm' => $sortiesForm->createView()
+
         ]);
     }
 
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(int $id, Request $request): Response
+    public function details(int $id, Request $request, UserRepository $userRepository): Response
     {
         $sortie = $this->getDoctrine()
             ->getRepository(Sorties::class)
             ->find($id);
         $sortiesForm = $this->createForm(SortieType::class, $sortie);
         $sortiesForm->handleRequest($request);
+        $users = $userRepository->findAll();
         if (!$sortie) {
             throw $this->createNotFoundException('Non trouvé');
         }
 
         return $this->render('sortie/details.html.twig', [
             'sortiesForm' => $sortiesForm->createView(),
-            "sortie" => $sortie
+            "sortie" => $sortie,
+            '$users' => $users
         ]);
     }
 
     /**
      * @Route("/update/{id}", name="update")
      */
-    public function update(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    public function update(int $id, Request $request, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response
     {
         $sortie = $entityManager->getRepository(Sorties::class)->find($id);
         $sortiesForm = $this->createForm(SortieType::class, $sortie);
@@ -94,23 +105,31 @@ class SortieController extends AbstractController
         if (!$sortie) {
             throw $this->createNotFoundException('Non trouvé');
         }
-        if ($sortiesForm->isSubmitted()) {
+        if ($sortiesForm->get('publier')->isClicked()) {
+            $etat = $etatRepository->findEtat()[1];
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('main_home');
+        }
+        if ($sortiesForm->get('supprimer')->isClicked()) {
+
+            $entityManager->remove($sortie);
+            $entityManager->flush();
+            return $this->redirectToRoute('main_home');
+        }
+        if ($sortiesForm->isSubmitted() && $sortiesForm->isValid()) {
             $entityManager->persist($sortie);
             $entityManager->flush();
             $this->addFlash('Success', 'Sortie modifiée');
         }
+
+
         return $this->render('sortie/update.html.twig', [
             'sortiesForm' => $sortiesForm->createView(),
             "sortie" => $sortie
         ]);
     }
 
-    /**
-     * @Route("/annuler/{id}", name="annuler")
-     */
-    public function remove(int $id, Request $request, EntityManagerInterface $entityManager): Response
-    {
-        return $this->render('sortie/annuler.html.twig');
-    }
 
 }

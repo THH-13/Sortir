@@ -1,13 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h2 class="text-center">Annuler une sortie :</h2>
+    <h2 class="text-center">Annuler une sortie :</h2>
 
-<div class="container">
-    <div class="row">
+    <div class="container">
+        <div class="row">
+            {{ form_start(AnnulerSortieForm) }}
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2"> Nom de la sortie :</div>
+                <div class="col-md-2">{{ form_row(AnnulerSortieForm.nom) }}</div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2"> Date de la sortie :</div>
+                <div class="col-md-2">{{ form_row(AnnulerSortieForm.datedebut) }}</div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2"> Campus :</div>
+                <div class="col-md-2">{{ form_row(AnnulerSortieForm.siteOrganisateur) }}</div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2"> Lieu :</div>
+                <div class="col-md-2">{{ form_row(AnnulerSortieForm.lieu) }}</div>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="col-md-2"> Motif :</div>
+                <div class="col-md-2">{{ form_row(AnnulerSortieForm.descriptioninfos) }} </div>
+            </div>
 
-        <div>
         </div>
+
+        <div class="d-flex justify-content-center mt-5">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-dark ">Enregistrer</button>
+            </div>
+            <div class="col-md-2">
+                <button type="reset" class="btn btn-outline-dark ">Annuler</button>
+            </div>
+
+        </div>
+
+        {{ form_end(AnnulerSortieForm) }}
+    </div>
+    </div>
 {% endblock %}
 
 {% block title %}

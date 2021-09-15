@@ -48,10 +48,11 @@ class SortiesRepository extends ServiceEntityRepository
             $queryBuilder->setParameter('campus', $search->campus);
         }
 
-        if (!empty($search->sortiesPassees)){
-                    $queryBuilder->andWhere('s.datecloture < :now');
-                    $queryBuilder->setParameter('now', new \DateTime('now'));
-                }
+        if (!empty($search->sortiesPassees)) {
+            /*$queryBuilder->andWhere('s.datedebut < :now');
+            $queryBuilder->setParameter('now', new \DateTime('now'));*/
+            $queryBuilder->andWhere('s.etat = 5');
+        }
 
 
         $query = $queryBuilder->getQuery();
@@ -72,6 +73,7 @@ class SortiesRepository extends ServiceEntityRepository
         return $paginator;*/
         return $results;
     }
+
     public function findRegistered()
     {
         $queryBuilder = $this->createQueryBuilder('s');

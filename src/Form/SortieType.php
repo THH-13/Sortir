@@ -10,11 +10,14 @@ use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Button;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -65,8 +68,7 @@ class SortieType extends AbstractType
                     return $campus->getNom();
                 }
             ])
-
-           ->add('lieu', EntityType::class, [
+            ->add('lieu', EntityType::class, [
                 'label' => false,
                 'class' => Lieu::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -109,7 +111,7 @@ class SortieType extends AbstractType
                     return $ville->getNom();
                 }
             ])
-           ->add('lieuRue', EntityType::class, [
+            ->add('lieuRue', EntityType::class, [
                 'mapped' => false,
                 'label' => false,
                 'class' => Lieu::class,
@@ -130,11 +132,15 @@ class SortieType extends AbstractType
                 'choice_label' => function (Ville $ville) {
                     return $ville->getCodePostal();
                 }
-            ]);
+            ])
+           ->add('publier', SubmitType::class, [
+                'attr' => ['class' => 'save'],
+            ])
+            ->add('supprimer', SubmitType::class, [
 
+                /*'attr' => ['class' => 'save'],*/
 
-
-       /* ->add('organisateur', HiddenType::class, [
+            ]);/* ->add('organisateur', HiddenType::class, [
             'data'=> '$id'
         ])*/;
 
@@ -145,13 +151,13 @@ class SortieType extends AbstractType
 
                 $form->getParent()->add('lieu', EntityType::class, [
                     /*'mapped' => false,*/
-                  /*  'class' => Lieu::class,
-                    'placeholder' => 'Please select lieu',
-                    'choices' => $form->getData()->getLieux()
+        /*  'class' => Lieu::class,
+          'placeholder' => 'Please select lieu',
+          'choices' => $form->getData()->getLieux()
 
-                ]);
-            }
-        );*/
+      ]);
+  }
+);*/
 
 
     }

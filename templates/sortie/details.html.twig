@@ -10,28 +10,31 @@
             {% include('sortie/_sortie.html.twig') %}
 
 
-    {{ form_end(sortiesForm) }}
-    <div class="col-md-4">
-        <h4>Liste des participants inscrits</h4>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="row">Pseudo</th>
-                <th scope="row">Nom</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            {{ form_end(sortiesForm, {'render_rest': false}) }}
+            <div class="col-md-4">
+                <h4>Liste des participants inscrits</h4>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="row">Pseudo</th>
+                        <th scope="row">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in sortie.isRegistered %}
+                    <tr>
+                        <td>
+                            {{ user.pseudo }}
+                        </td>
+                        <td>
+                            {{ user.nom }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 {% endblock %}

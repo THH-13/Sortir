@@ -6,7 +6,7 @@ use App\Repository\SortiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use PhpParser\Node\Expr\Array_;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortiesRepository::class)
@@ -21,16 +21,20 @@ class Sorties
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Please provide a title for the sortie!")
+     * @Assert\Length(min=2, max=30)
      * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
+     * @Assert\GreaterThanOrEqual(propertyPath="datecloture")
      * @ORM\Column(type="datetime")
      */
     private $datedebut;
 
     /**
+     * @Assert\NotBlank(message="Renseigner la durée de la sortie!")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $duree;
@@ -41,6 +45,7 @@ class Sorties
     private $datecloture;
 
     /**
+     * @Assert\NotBlank(message="Renseigner le nombre d'inscriptions maximum!")
      * @ORM\Column(type="integer")
      */
     private $nbinscriptionsmax;
