@@ -1,17 +1,28 @@
-<nav class="navbar navbar-white">
-    <div class="navbar-brand"></div>
-        <ul class="d-flex flex-row navbar-nav">
+<nav class="navbar navbar-expand-lg navbar-light">
+
+    <div class="container-fluid">
+            <a href="{{ path('main_home') }}" class="navbar-brand col col-lg-6">
+                <img src="{{ asset('image/logo3.png') }}" style="width: 150px" alt="Sortir">
+            </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div class="navbar-brand collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="fa navbar-nav mb-lg-4 col col-lg-6 col-sm-12">
             {% if app.user %}
                 {% if is_granted("ROLE_ADMIN") %}
-                    <li class="p-2"><a href="{{ path('admin_app_register') }}" title="register">Création de compte (temporaire)</a></li>
-                    <li class="p-2"><a href="#" title="campus">Campus</a></li>
-                    <li class="p-2"><a href="#" title="ville">Ville</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('admin_app_register') }}" title="register">Création de compte (temporaire)</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="#" title="campus">Campus</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="#" title="ville">Ville</a></li>
                 {% endif %}
-                <li class="p-2"><a href="{{ path('main_home') }}" title="Home">Accueil</a></li>
-                <li class="p-2"><a href="{{ path('profil_index') }}" title="profil">Mon profil</a></li>
-                <li class="p-2"><a href="{{ path('app_logout') }}" title="logout">Se déconnecter</a></li>
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('main_home') }}" title="Home">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('profil_index') }}" title="profil">Mon profil</a></li>
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('app_logout') }}" title="logout">Se déconnecter</a></li>
 
             {% endif %}
 
         </ul>
+    </div>
+    </div>
 </nav>

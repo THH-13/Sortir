@@ -2,6 +2,7 @@
 
 {% block title %}{{ parent() }} | Accueil{% endblock %}
 
+
 {% block body %}
 
     <h2>Filtrer les sorties :</h2>
@@ -64,7 +65,7 @@
         <tr>
             <th scope="row">Nom de la sortie</th>
             <th scope="row">Date de la sortie</th>
-            <th scope="row">Cloture</th>
+            <th scope="row" class="cloture">Cloture</th>
             <th scope="row">inscrits/places</th>
             <th scope="row">Etat</th>
             <th scope="row">Inscrit</th>
@@ -104,46 +105,42 @@
                     {% if (sortie.organisateur == app.user) and ( sortie.etat.id == 1) %}
                         <div class="d-flex flex-row mt-3">
                             <div class="p-2">
-                                <a href="{{ path('sortie_update', { 'id':sortie.id }) }}" title="Detail">Modifier</a>
-                            </div>
-                            <div class="p-2">
-                                <a href="{{ path('etat', {'id':sortie.id}) }}" title="Detail">Publier</a>
+                                <a class="nav-link active" href="{{ path('sortie_update', { 'id':sortie.id }) }}" title="Detail">Modifier</a>
+                         
+                                <a class="nav-link active" href="{{ path('etat', {'id':sortie.id}) }}" title="Detail">Publier</a>
                             </div>
                         </div>
                     {% endif %}
                     {% if (sortie.organisateur == app.user) and ( sortie.etat.id == 2) or ( sortie.etat.id == 3) %}
                     <div class="d-flex flex-row mt-3">
                         <div class="p-2">
-                            <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
-                        </div>
-                        <div class="p-2">
-                            <a href="{{ path('annuler', { 'id':sortie.id }) }}" title="Detail">Annuler</a>
+                            <a class="nav-link active" href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+
+                            <a class="nav-link active" href="{{ path('annuler', { 'id':sortie.id }) }}" title="Detail">Annuler</a>
                         </div>
                     </div>
                     {% elseif (( sortie.etat.id == 5) or ( sortie.etat.id == 6) or ( sortie.etat.id == 7)) %}
                         <div class="d-flex flex-row mt-3">
                             <div class="p-2">
-                                <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+                                <a class="nav-link active" href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
                             </div>
                         </div>
                     {% endif %}
                     {% if (sortie.organisateur != app.user) and ( sortie.etat.id == 2) and (app.user not in sortie.isRegistered) and (sortie.nbinscriptionsmax != (sortie.isRegistered | length)) %}
                         <div class="d-flex flex-row mt-3">
                             <div class="p-2">
-                                <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
-                            </div>
-                            <div class="p-2">
-                                <a href="{{ path('inscrit', { 'id':sortie.id }) }}" title="Detail">S'inscrire</a>
+                                <a class="nav-link active" href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+
+                                <a class="nav-link active" href="{{ path('inscrit', { 'id':sortie.id }) }}" title="Detail">S'inscrire</a>
                             </div>
                         </div>
 
                     {% elseif (sortie.organisateur != app.user) and ( sortie.etat.id == 2) and (app.user in sortie.isRegistered) %}
                         <div class="d-flex flex-row mt-3">
                             <div class="p-2">
-                                <a href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
-                            </div>
-                            <div class="p-2">
-                                <a href="{{ path('desister', { 'id':sortie.id }) }}" title="Detail">Se désister</a>
+                                <a class="nav-link active" href="{{ path('sortie_details', { 'id':sortie.id }) }}" title="Detail">Afficher</a>
+
+                                <a class="nav-link active" href="{{ path('desister', { 'id':sortie.id }) }}" title="Detail">Se désister</a>
                             </div>
                         </div>
                     {% endif %}
@@ -157,6 +154,5 @@
     <button type="button" onclick="window.location.href='{{ path('sortie_create') }}'" class="btn btn-outline-dark">
         Créer une sortie
     </button>
-
 
 {% endblock %}

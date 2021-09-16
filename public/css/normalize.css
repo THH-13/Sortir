@@ -22,6 +22,7 @@ html {
 
 body {
   margin: 0;
+  width: 100%;
 }
 
 /**
@@ -91,6 +92,10 @@ abbr[title] {
 /**
  * Add the correct font weight in Chrome, Edge, and Safari.
  */
+
+.desk {
+  display: none;
+}
 
 b,
 strong {

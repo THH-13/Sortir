@@ -6,7 +6,7 @@
     <h1>Edit User</h1>
 
     {{ include('profil/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('profil_index') }}">back to list</a>
+    <button class="btn btn-outline-secondary"><a class="nav-link active" style="color: black" aria-current="page" href="{{ path('profil_index') }}">Annuler</a>
+    </button>
 
 {% endblock %}
